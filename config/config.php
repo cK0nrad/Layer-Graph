@@ -27,7 +27,7 @@ $num = 'EU';
 
 //Data transferred or received  -  Donnée transférée ou recus
 //RX = received/recus TX = transferred/transféerée
-$datatype = 'TX';
+$datatype = 'RX';
 
 //Language - Langue
 //FR = francais/french - EN = english/anglais
