@@ -12,11 +12,11 @@ header("Access-Control-Allow-Origin: *");
 header("Content-type: text/json");
 $x = time() * 1000; 
 
-$tx1 = file_get_contents("/sys/class/net/eth0/statistics/tx_bytes");
-$rx1 = file_get_contents("/sys/class/net/eth0/statistics/rx_bytes");
+$tx1 = file_get_contents("/sys/class/net/{$interface}/statistics/tx_bytes");
+$rx1 = file_get_contents("/sys/class/net/{$interface}/statistics/rx_bytes");
 sleep(1);
-$tx2 = file_get_contents("/sys/class/net/eth0/statistics/tx_bytes");
-$rx2 = file_get_contents("/sys/class/net/eth0/statistics/rx_bytes");
+$tx2 = file_get_contents("/sys/class/net/{$interface}/statistics/tx_bytes");
+$rx2 = file_get_contents("/sys/class/net/{$interface}/statistics/rx_bytes");
 
 
 

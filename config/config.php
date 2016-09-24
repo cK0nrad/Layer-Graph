@@ -35,4 +35,8 @@ $lang = 'FR';
 
 //IP OF SERVER - Ip du serveur
 $ip = '127.0.0.1';
+
+//Name of interface - Nom de l'interface
+//Usually : 'eth0' - Generalement :'eth0'
+$interface = 'eth0';
 ?>
