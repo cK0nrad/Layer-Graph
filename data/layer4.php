@@ -4,39 +4,23 @@ header("Access-Control-Allow-Origin: *");
 header("Content-type: text/json");
 $x = time() * 1000;
 
-$tx1 = @file_get_contents("/sys/class/net/{$interface}/statistics/tx_bytes");
-$rx1 = @file_get_contents("/sys/class/net/{$interface}/statistics/rx_bytes");
-sleep(1);
-$tx2 = @file_get_contents("/sys/class/net/{$interface}/statistics/tx_bytes");
-$rx2 = @file_get_contents("/sys/class/net/{$interface}/statistics/rx_bytes");
-
-if($datatype == 'RX'){
-	if($num == 'EU'){
-		$y = ($rx2-$rx1);
-		$ret = array($x, $y);
-		echo json_encode($ret);
-	}
-	elseif($num == 'US'){
-		$y = ($rx2-$rx1)*8;
-		$ret = array($x, $y);
-		echo json_encode($ret);
-	}
-	else{
-		echo 'CONFIGURATION ERROR - ERREUR CONFIG (num)';
-	}
-}elseif($datatype == 'TX'){
-	if($num == 'EU'){
-		$y = ($tx2-$tx1);
-		$ret = array($x, $y);
-		echo json_encode($ret);
-	}elseif($num == 'US'){
-		$y = ($tx2-$tx1)*8;
-		$ret = array($x, $y);
-		echo json_encode($ret);
-	}else{
-		echo 'CONFIGURATION ERROR - ERREUR CONFIG (num)';
-	}
-}else{
-	echo 'CONFIGURATION ERROR - ERREUR CONFIG (datatype)';
+function mean($first, $second, $time, $zone)
+{
+    $y = ($second - $first);
+    if ($zone == 'US') {
+        $y *= 8;
+    }
+    return json_encode(array($time, $y));
 }
-?>
+
+function dataFetch($type, $interface)
+{
+    $data1 = @file_get_contents("/sys/class/net/{$interface}/statistics/{$type}_bytes");
+    sleep(1);
+    $data2 = @file_get_contents("/sys/class/net/{$interface}/statistics/{$type}_bytes");
+    return [$data1, $data2];
+}
+
+$rtx = dataFetch(($datatype == 'TX') ? "tx" : "rx", $interface);
+echo mean($rtx[0], $rtx[1], $x, $zone);
+
